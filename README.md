@@ -1,62 +1,83 @@
-# uc — RAW Fusion
+PIPELINE2 · RAW Fusion · UC‑Layer
+PIPELINE2 ist die zweite Stufe des PIPELINE‑Systems.
+Während PIPELINE1 die Quelle, Zahl und den Vektor erzeugt,
+übernimmt PIPELINE2 die Fusion dieser Rohdaten.
 
-uc ist der neutrale TECH‑Master für Fusion‑Material.
-Er fusioniert iki/bir‑Material technisch, ohne Identität, ohne Achsen,
-ohne POS‑Bindung, ohne Respo.
+PIPELINE2 ist der RAW‑Layer, der alle UC‑Elemente verbindet, ordnet und weiterleitet.
 
-## Inhalt
-/items
-- uc-fusion-01.item
-- uc-fusion-02.item
-- uc-operator.item
-- uc-routing.item
-- pos-router.uc.item
+⭐ 1. Zweck von PIPELINE2
+PIPELINE2 führt die Fusion der Rohdaten durch:
 
-/tool
-- tool.html – RAW‑Fusion‑Werkzeugblock
+RAW Fusion → Rohdaten zusammenführen
 
-ID
-- ID.html – RAW‑Fusion Identity Shell (neutral)
+UC Fusion → UC‑Elemente verbinden
 
-index
-- index.html – neutrale UC‑Startseite
+Operator Fusion → Operatoren anwenden
 
-## Zweck
-uc dient als Behälter für Fusion‑Dateien.
-Keine Identität, keine Achsen, keine Interpretation.
-Nur TECH‑Material für Drift, Routing und Fusion.
+Router Fusion → Positionen und Wege bestimmen
 
-## POS‑Nieren (neutral)
-pos.home: bir  
-pos.target: iki1uc  
-pos.mode: fuse  
-pos.state: neutral  
-pos.bind: none  
+PIPELINE2 erzeugt damit die strukturierte Basis, die PIPELINE3 (NET/NC) weiterverarbeitet.
 
-POS‑Nieren sind rein technische Positionierungs‑Marker.
-Keine Identität, keine Achsen, keine Respo.
+Weiter ausarbeiten:
 
-## Nutzung
-Die Dateien können direkt in Bench‑Viewer wie DINOly geladen werden.
-Jede Fusion arbeitet unabhängig und ohne Identitäts‑Einfluss.
+RAW Fusion
 
-## Status
-uc ist ein reiner TECH‑Fusion‑Master.
-Identität liegt extern bei 6e.
+UC Fusion
 
----
+Operator Fusion
 
-# Referenz – Systemkreis (neutral)
+Router Fusion
 
-iki → bir → uc → iki1uc (360°‑Kreis)
+⭐ 2. Struktur von PIPELINE2
+PIPELINE2 besteht aus vier klar getrennten Layern:
 
-SYS / TEM / ID / OP  
-TΩ / XU / Φ4 / O12  
+Layer	Bedeutung
+RAW Layer	Rohdaten‑Fusion
+UC Layer	UC‑Elemente verbinden
+Operator Layer	Operatoren anwenden
+Router Layer	Positionen / Wege bestimmen
 
-3hit90  
-BRM  
-TOOLOMAT  
-TIME  
-RUN8  
 
-(Alles neutral, keine Aktivierung.)
+Diese vier Layer bilden die vollständige Fusionseinheit.
+
+⭐ 3. Dateien im Repository
+Datei	Inhalt
+ID.html	Identifikation aller UC‑Elemente
+index.html	Hauptansicht von PIPELINE2
+tool.html	Werkzeuge für Fusion / Operatoren
+pos-router.uc.item	Router‑Definition (Positionen)
+uc-fusion-01.item	UC‑Fusion Block 01
+uc-fusion-02.item	UC‑Fusion Block 02
+uc-operator.item	Operator‑Definition für Fusion
+
+
+Diese Dateien bilden zusammen den vollständigen RAW‑Fusion‑Kern.
+
+⭐ 4. Rolle im Gesamtsystem
+PIPELINE2 ist die zweite Stufe des gesamten Durchlaufs:
+
+PIPELINE1 (Quelle)
+→
+PIPELINE2 (Fusion)
+→
+PIPELINE3 (Netz)
+→
+PIPELINE4 (Output)
+PIPELINE2 übernimmt die Rohdaten aus PIPELINE1
+und erzeugt daraus fusionierte, strukturierte Daten,
+die PIPELINE3 weiterverarbeitet.
+
+⭐ 5. Achsen in PIPELINE2
+PIPELINE2 nutzt die Achsen:
+
+Achse	Funktion
+6	Struktur / Dreieck
+9	Aggregation
+12	Raum / Position
+tmp	Zwischenraum
+
+
+Diese Achsen werden in den UC‑Items verwendet.
+
+⭐ 6. Status
+PIPELINE2 ist aktiv.
