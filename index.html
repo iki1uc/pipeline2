@@ -2,80 +2,87 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>uc — RAW Fusion</title>
+<title>PIPELINE2 · Operator-Ebene · iki1uc</title>
 
 <style>
-  body { background:#000; color:#0f0; font-family:monospace; padding:20px; }
-  h1 { color:#6f6; }
-  .block { border:1px solid #0f0; padding:12px; margin-bottom:18px; }
-  .label { color:#0ff; font-weight:bold; }
-  a { color:#6cf; }
+    body {
+        background:#000;
+        color:#0f0;
+        font-family:Consolas, monospace;
+        padding:20px;
+    }
+    h1 { color:#6cf; }
+    pre {
+        background:#111;
+        padding:12px;
+        border:1px solid #333;
+        border-radius:6px;
+        color:#0f0;
+    }
+    .block { margin-bottom:20px; }
 </style>
 
+<script type="module">
+
+// =========================
+// Loader für .item Dateien
+// =========================
+
+async function loadItem(name){
+    const res = await fetch(name);
+    return await res.text();
+}
+
+// =========================
+// PIPELINE2 Start
+// =========================
+
+async function PIPELINE2_START(){
+
+    // UC-Fusion Items
+    const fusion01 = await loadItem("uc-fusion-01.item");
+    const fusion02 = await loadItem("uc-fusion-02.item");
+
+    // UC-Operator
+    const operator = await loadItem("uc-operator.item");
+
+    // POS-Router
+    const posRouter = await loadItem("pos-router.uc.item");
+
+    // ID-Module
+    const id = await loadItem("ID.html");
+
+    return {
+        fusion: {
+            fusion01,
+            fusion02
+        },
+        operator,
+        posRouter,
+        id
+    };
+}
+
+// =========================
+// UI
+// =========================
+
+window.onload = async () => {
+    const out = await PIPELINE2_START();
+    document.getElementById("out").textContent =
+        JSON.stringify(out, null, 2);
+};
+</script>
+
 </head>
+
 <body>
 
-<h1>uc — RAW Fusion</h1>
-<p>uc fusioniert iki/bir‑Material technisch, ohne Identität, ohne Achsen, ohne Respo.</p>
+<h1>PIPELINE2 · Operator-Ebene · iki1uc</h1>
 
 <div class="block">
-  <span class="label">RAW Fusion Items</span><br>
-  <a href="items/uc-fusion-01.item">uc‑fusion‑01.item</a>
-  <a href="items/uc-fusion-02.item">uc‑fusion‑02.item</a>
-  <a href="items/uc-operator.item">uc‑operator.item</a>
-  <a href="items/uc-routing.item">uc‑routing.item</a>
+    <pre id="out">Lade PIPELINE2…</pre>
 </div>
-
-<div class="block">
-  <span class="label">POS‑Nieren (neutral)</span><br>
-  pos.home: bir<br>
-  pos.target: iki1uc<br>
-  pos.mode: fuse<br>
-  pos.state: neutral<br>
-  pos.bind: none<br><br>
-
-  POS‑Nieren sind rein technische Positionierungs‑Marker.<br>
-  Keine Identität, keine Achsen, keine Respo.
-</div>
-
-<div class="block">
-  <span class="label">RAW Status</span><br>
-  uc = RAW‑Fusion<br>
-  Identität = extern (6e)<br>
-  Achsen = none<br>
-  POS = neutral<br>
-  Respo = none<br>
-</div>
-
-<hr>
-
-<h2>System‑Referenz (neutral)</h2>
-
-<div class="block">
-  <span class="label">360°‑Kreis</span><br>
-  iki → bir → uc → iki1uc
-</div>
-
-<div class="block">
-  <span class="label">Quadranten</span><br>
-  SYS / TEM / ID / OP
-</div>
-
-<div class="block">
-  <span class="label">Geometrie</span><br>
-  TΩ / XU / Φ4 / O12
-</div>
-
-<div class="block">
-  <span class="label">Module</span><br>
-  3hit90<br>
-  BRM<br>
-  TOOLOMAT<br>
-  TIME<br>
-  RUN8<br>
-</div>
-
-<p style="color:#555;">(Alles neutral, keine Aktivierung.)</p>
 
 </body>
 </html>
