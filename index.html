@@ -2,87 +2,31 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PIPELINE2 · Operator-Ebene · iki1uc</title>
+<title>PIPELINE2 · RAW → STRUCTURE → VECTOR · REAL</title>
 
 <style>
-    body {
-        background:#000;
-        color:#0f0;
-        font-family:Consolas, monospace;
-        padding:20px;
-    }
-    h1 { color:#6cf; }
-    pre {
-        background:#111;
-        padding:12px;
-        border:1px solid #333;
-        border-radius:6px;
-        color:#0f0;
-    }
-    .block { margin-bottom:20px; }
+body{background:#000;color:#0f0;font-family:Consolas, monospace;padding:20px;}
+h1{color:#6cf;}
+h2{color:#0f0;}
+pre{background:#111;padding:12px;border:1px solid #333;border-radius:6px;color:#0f0;}
+button{background:#111;color:#0f0;border:1px solid #0f0;padding:10px 20px;margin:5px;}
+section{margin-bottom:20px;}
 </style>
 
 <script type="module">
 
-// =========================
-// Loader für .item Dateien
-// =========================
+// MODULE IMPORTS
+import { QI } from "./QI.js";
+import { coreScan } from "./coreScan.js";
 
-async function loadItem(name){
-    const res = await fetch(name);
-    return await res.text();
-}
+import { P0 } from "./pipelineP0.js";
+import { P1 } from "./pipelineP1.js";
+import { P2 } from "./pipelineP2.js";
 
-// =========================
-// PIPELINE2 Start
-// =========================
-
-async function PIPELINE2_START(){
-
-    // UC-Fusion Items
-    const fusion01 = await loadItem("uc-fusion-01.item");
-    const fusion02 = await loadItem("uc-fusion-02.item");
-
-    // UC-Operator
-    const operator = await loadItem("uc-operator.item");
-
-    // POS-Router
-    const posRouter = await loadItem("pos-router.uc.item");
-
-    // ID-Module
-    const id = await loadItem("ID.html");
-
-    return {
-        fusion: {
-            fusion01,
-            fusion02
-        },
-        operator,
-        posRouter,
-        id
-    };
-}
-
-// =========================
-// UI
-// =========================
-
-window.onload = async () => {
-    const out = await PIPELINE2_START();
-    document.getElementById("out").textContent =
-        JSON.stringify(out, null, 2);
+// --- GLOBAL OUTPUT ---
+window.out = function(msg){
+    document.getElementById("out").innerText = msg;
 };
-</script>
 
-</head>
-
-<body>
-
-<h1>PIPELINE2 · Operator-Ebene · iki1uc</h1>
-
-<div class="block">
-    <pre id="out">Lade PIPELINE2…</pre>
-</div>
-
-</body>
-</html>
+// =========================
+// QI —
