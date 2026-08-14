@@ -3,14 +3,8 @@ export const P1 = {
         return {
             id: "P2:P1",
             phase: "structure",
-            source: "RAW",
-            vector: {
-                x: 1,
-                y: 1,
-                z: 1
-            },
+            vector: { x:1, y:1, z:1 },
             core
         };
     }
 };
-
