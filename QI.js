@@ -1,24 +1,14 @@
 export const QI = {
     scan(obj){
         return {
-            id: obj.id || "CORE",
+            id: obj.id || "CORE2",
             core: !!obj.core,
             fn: !!obj.fn,
             stable: !!obj.stable,
             ready: !!obj.ready,
-
-            // RESPO‑Erkennung
-            respo: obj.respo360 ? true : false,
-
-            // Zeitstempel
+            respo: !!obj.respo360,
             time: Date.now(),
-
-            // Debug / Meta
-            meta: {
-                type: typeof obj,
-                keys: Object.keys(obj)
-            }
+            keys: Object.keys(obj)
         };
     }
 };
-
