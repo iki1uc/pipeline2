@@ -1,29 +1,20 @@
 export function coreScan(){
     return {
-        id: "CORE",
+        id: "CORE2",
         core: true,
         fn: true,
         stable: true,
         ready: true,
 
-        // RESPO‑Modul (360°)
         respo360: {
-            id: "RESPO",
+            id: "RESPO2",
             active: true,
             level: 360,
             pulse: Date.now()
         },
 
-        // Basisdaten für alle Pipeline‑Stationen
+        vector: { x:0, y:0, z:0 },
         source: "RAW",
-        vector: {
-            x: 0,
-            y: 0,
-            z: 0
-        },
-
-        // Debug
         stamp: Date.now()
     };
 }
-
