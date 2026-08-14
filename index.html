@@ -11,10 +11,7 @@ window.out = function(msg){
     document.getElementById("out").innerText = msg;
 };
 
-// =========================
-// QI — GLOBAL FUNCTIONS
-// =========================
-
+// QI
 window.qi_p2 = function(){
     const core = coreScan();
     out("QI · PIPELINE2\n" + JSON.stringify(QI.scan(P2.run(core)), null, 2));
@@ -29,10 +26,7 @@ window.qi_respo = function(){
     out("QI · RESPO\n" + JSON.stringify(QI.scan(core.respo360), null, 2));
 };
 
-// =========================
-// PIPELINE2 — GLOBAL FUNCTIONS
-// =========================
-
+// PIPELINE2
 window.p2_raw = function(){
     out("PIPELINE2 · RAW → WAKE\n" + JSON.stringify(P0.run(coreScan()), null, 2));
 };
