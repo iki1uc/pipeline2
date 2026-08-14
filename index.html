@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<title>PIPELINE2 · RAW → STRUCTURE → VECTOR · REAL</title>
-
-<style>
-body{background:#000;color:#0f0;font-family:Consolas, monospace;padding:20px;}
-h1{color:#6cf;}
-h2{color:#0f0;}
-pre{background:#111;padding:12px;border:1px solid #333;border-radius:6px;color:#0f0;}
-button{background:#111;color:#0f0;border:1px solid #0f0;padding:10px 20px;margin:5px;}
-section{margin-bottom:20px;}
-</style>
-
 <script type="module">
 
-// MODULE IMPORTS
 import { QI } from "./QI.js";
 import { coreScan } from "./coreScan.js";
 
@@ -23,10 +7,42 @@ import { P0 } from "./pipelineP0.js";
 import { P1 } from "./pipelineP1.js";
 import { P2 } from "./pipelineP2.js";
 
-// --- GLOBAL OUTPUT ---
 window.out = function(msg){
     document.getElementById("out").innerText = msg;
 };
 
 // =========================
-// QI —
+// QI — GLOBAL FUNCTIONS
+// =========================
+
+window.qi_p2 = function(){
+    const core = coreScan();
+    out("QI · PIPELINE2\n" + JSON.stringify(QI.scan(P2.run(core)), null, 2));
+};
+
+window.qi_master = function(){
+    out("QI · MASTER-KERN\n" + JSON.stringify(QI.scan(coreScan()), null, 2));
+};
+
+window.qi_respo = function(){
+    const core = coreScan();
+    out("QI · RESPO\n" + JSON.stringify(QI.scan(core.respo360), null, 2));
+};
+
+// =========================
+// PIPELINE2 — GLOBAL FUNCTIONS
+// =========================
+
+window.p2_raw = function(){
+    out("PIPELINE2 · RAW → WAKE\n" + JSON.stringify(P0.run(coreScan()), null, 2));
+};
+
+window.p2_structure = function(){
+    out("PIPELINE2 · RAW → STRUCTURE\n" + JSON.stringify(P1.run(coreScan()), null, 2));
+};
+
+window.p2_vector = function(){
+    out("PIPELINE2 · STRUCTURE → VECTOR\n" + JSON.stringify(P2.run(coreScan()), null, 2));
+};
+
+</script>
