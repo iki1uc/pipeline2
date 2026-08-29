@@ -1,12 +1,12 @@
 // ─── UNI-9 · 360° Lebensmatrix ───────────────────────────────
 export function UNI9(values) {
- 
+
   // 1) 3-Achse: Grundsortierung
   const axis3 = values
     .map(Number)
     .filter(n => !isNaN(n))
     .sort((a,b)=>a-b);
-
+ 
   // 2) 9-Achse: 360°-Lebensraum
   const axis9 = axis3.map((v,i)=>({
     value: v,
