@@ -1,361 +1,641 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- EVO-GEOLEGAL: Das Gesetz in der Datei -->
-    <meta name="author" content="iki1uc (Ridvan)">
-    <meta name="license" content="MIT - Nutzung erlaubt. Logik-Reproduktion verboten.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIPELINE2 · RAW Fusion · 3 · 9 · 81</title>
 
-    <title>🌀 PIPELINE2 · MASTER-INDEX · ALGORITHMISCHE ENGINE</title>
+<!-- Font & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <style>
-        body {
-            background: #0a0a0f;
-            color: #0f0;
-            font-family: 'Consolas', monospace;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            min-height: 100vh;
-        }
+<style>
+  /* ---------- Gleiches Styling wie Pipeline1 (kompakt) ---------- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-primary: #0b0d11; --bg-secondary: #13171e; --bg-card: #1a1f2a;
+    --bg-card-hover: #232a38; --border-color: #2c3444;
+    --text-primary: #f0f2f8; --text-secondary: #9aa4b8; --text-muted: #6b768a;
+    --accent-blue: #4b7cf7; --accent-green: #2ed98c; --accent-yellow: #f5b342;
+    --accent-red: #f25a6a; --accent-purple: #a78bfa; --accent-gold: #ffd700;
+    --shadow: 0 8px 32px rgba(0,0,0,0.6); --radius: 16px; --radius-sm: 10px;
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg-primary); color: var(--text-primary);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .pipeline-dashboard {
+    max-width: 1360px; width: 100%; background: var(--bg-secondary);
+    border-radius: var(--radius); border: 1px solid var(--border-color);
+    box-shadow: var(--shadow); padding: 32px 36px 40px;
+  }
+  .dashboard-header {
+    display: flex; flex-wrap: wrap; align-items: center;
+    justify-content: space-between; margin-bottom: 32px; gap: 16px;
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-left .logo-icon {
+    width: 44px; height: 44px; background: var(--accent-gold);
+    border-radius: var(--radius-sm); display: flex; align-items: center;
+    justify-content: center; font-size: 22px; color: #000;
+    box-shadow: 0 4px 12px rgba(255,215,0,0.3);
+  }
+  .header-left h1 {
+    font-weight: 700; font-size: 26px; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffd700 0%, #b8a9ff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header-left h1 span { font-weight: 400; -webkit-text-fill-color: var(--text-secondary); opacity: 0.6; }
+  .header-right { display: flex; align-items: center; gap: 18px; }
+  .pipeline-badge {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 100px; padding: 6px 18px 6px 16px;
+    font-size: 13px; font-weight: 500; color: var(--text-secondary);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .pipeline-badge .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent-gold);
+    display: inline-block; animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+  .header-actions { display: flex; gap: 10px; }
+  .header-actions button {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    color: var(--text-secondary); width: 40px; height: 40px;
+    border-radius: var(--radius-sm); font-size: 16px; cursor: pointer;
+    transition: var(--transition); display: flex; align-items: center; justify-content: center;
+  }
+  .header-actions button:hover { background: var(--bg-card-hover); border-color: var(--accent-gold); color: var(--text-primary); }
 
-        header {
-            border: 2px solid #ffd700;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(255,215,0,0.05), rgba(0,0,0,0.2));
-        }
-        header h1 {
-            font-size: 22px;
-            background: linear-gradient(90deg, #ffd700, #b8a9ff, #6bcfff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 4px;
-            margin: 0;
-        }
-        header p {
-            font-size: 10px;
-            color: #888;
-            margin: 5px 0 0 0;
-            letter-spacing: 2px;
-        }
+  /* stats */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px; margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm); padding: 16px 20px;
+    transition: var(--transition);
+  }
+  .stat-card:hover { background: var(--bg-card-hover); border-color: #3a4558; }
+  .stat-card .stat-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); font-weight: 600; }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; margin-top: 4px; letter-spacing: -0.01em; }
+  .stat-card .stat-value.gold { color: var(--accent-gold); }
+  .stat-card .stat-value.blue { color: var(--accent-blue); }
+  .stat-card .stat-value.green { color: var(--accent-green); }
+  .stat-card .stat-value.purple { color: var(--accent-purple); }
+  .stat-card .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-        }
-        .panel {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .panel h2 {
-            font-size: 14px;
-            color: #ffd700;
-            margin: 0;
-            border-bottom: 1px solid #333;
-            padding-bottom: 6px;
-        }
+  /* pipeline flow */
+  .pipeline-flow {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius); padding: 28px 24px; margin-bottom: 28px;
+    overflow-x: auto;
+  }
+  .pipeline-flow .flow-title {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .flow-title i { color: var(--accent-gold); }
+  .pipeline-stages {
+    display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;
+    min-width: fit-content; padding: 4px 0;
+  }
+  .stage-node {
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 110px; position: relative; transition: var(--transition);
+  }
+  .stage-node .node-circle {
+    width: 64px; height: 64px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; background: var(--bg-secondary);
+    border: 2px solid var(--border-color); color: var(--text-muted);
+    transition: var(--transition); position: relative; z-index: 2;
+  }
+  .stage-node .node-circle .status-ring {
+    position: absolute; inset: -4px; border-radius: 50%;
+    border: 3px solid transparent; transition: var(--transition);
+  }
+  .stage-node .node-circle .status-ring.pending { border-color: var(--text-muted); opacity: 0.3; }
+  .stage-node .node-circle .status-ring.running {
+    border-color: var(--accent-yellow); border-top-color: transparent;
+    animation: spin 1.2s linear infinite;
+  }
+  .stage-node .node-circle .status-ring.success { border-color: var(--accent-green); }
+  .stage-node .node-circle .status-ring.failed { border-color: var(--accent-red); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .stage-node .node-label { margin-top: 12px; font-size: 13px; font-weight: 500; color: var(--text-secondary); text-align: center; }
+  .stage-node .node-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; text-align: center; }
+  .stage-node.success .node-circle { border-color: var(--accent-green); background: rgba(46,217,140,0.15); color: var(--accent-green); }
+  .stage-node.success .node-label { color: var(--accent-green); }
+  .stage-node.running .node-circle { border-color: var(--accent-yellow); background: rgba(245,179,66,0.15); color: var(--accent-yellow); }
+  .stage-node.running .node-label { color: var(--accent-yellow); }
+  .stage-node.failed .node-circle { border-color: var(--accent-red); background: rgba(242,90,106,0.15); color: var(--accent-red); }
+  .stage-node.failed .node-label { color: var(--accent-red); }
+  .stage-node.pending .node-circle { border-color: var(--border-color); background: var(--bg-secondary); color: var(--text-muted); }
+  .stage-node.pending .node-label { color: var(--text-muted); }
 
-        .cmd-bar {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .cmd {
-            background: #0a0a0f;
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            cursor: pointer;
-            flex: 1;
-            min-width: 50px;
-            transition: 0.3s;
-        }
-        .cmd.active {
-            border-color: #ff6b8a;
-            box-shadow: 0 0 15px rgba(255,107,138,0.3);
-            color: #ff6b8a;
-        }
+  .stage-connector {
+    flex: 0 0 48px; height: 3px; background: var(--border-color);
+    position: relative; border-radius: 2px; transition: var(--transition);
+    min-width: 24px;
+  }
+  .stage-connector.active { background: var(--accent-blue); box-shadow: 0 0 12px rgba(75,124,247,0.3); }
+  .stage-connector.success { background: var(--accent-green); box-shadow: 0 0 12px rgba(46,217,140,0.3); }
+  .stage-connector.failed { background: var(--accent-red); box-shadow: 0 0 12px rgba(242,90,106,0.3); }
+  .stage-connector::after {
+    content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+    width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+    border-left: 8px solid var(--border-color); transition: var(--transition);
+  }
+  .stage-connector.active::after { border-left-color: var(--accent-blue); }
+  .stage-connector.success::after { border-left-color: var(--accent-green); }
+  .stage-connector.failed::after { border-left-color: var(--accent-red); }
 
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            color: #888;
-            border-bottom: 1px dashed #333;
-            padding-bottom: 4px;
-        }
-        .stat-row b { color: #0f0; }
+  /* activity */
+  .activity-section {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 820px) { .activity-section { grid-template-columns: 1fr; } }
+  .activity-panel {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm); padding: 20px 22px;
+  }
+  .activity-panel .panel-head {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+  }
+  .activity-panel .panel-head h3 {
+    font-size: 14px; font-weight: 600; color: var(--text-secondary);
+    letter-spacing: 0.02em; display: flex; align-items: center; gap: 10px;
+  }
+  .activity-panel .panel-head h3 i { color: var(--accent-gold); }
+  .activity-panel .panel-head .badge-count {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 100px; padding: 2px 12px; font-size: 12px; color: var(--text-muted);
+  }
+  .log-list {
+    display: flex; flex-direction: column; gap: 10px;
+    max-height: 220px; overflow-y: auto; padding-right: 4px;
+  }
+  .log-list::-webkit-scrollbar { width: 4px; }
+  .log-list::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 4px; }
+  .log-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+  .log-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 8px 12px; background: var(--bg-secondary);
+    border-radius: 8px; border-left: 3px solid var(--border-color);
+    transition: var(--transition); font-size: 13px;
+  }
+  .log-item .log-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; width: 20px; text-align: center; }
+  .log-item .log-content { flex: 1; color: var(--text-secondary); line-height: 1.4; }
+  .log-item .log-content strong { color: var(--text-primary); font-weight: 500; }
+  .log-item .log-time { font-size: 11px; color: var(--text-muted); flex-shrink: 0; margin-top: 2px; }
+  .log-item.success { border-left-color: var(--accent-green); }
+  .log-item.success .log-icon { color: var(--accent-green); }
+  .log-item.error { border-left-color: var(--accent-red); }
+  .log-item.error .log-icon { color: var(--accent-red); }
+  .log-item.warning { border-left-color: var(--accent-yellow); }
+  .log-item.warning .log-icon { color: var(--accent-yellow); }
+  .log-item.info { border-left-color: var(--accent-blue); }
+  .log-item.info .log-icon { color: var(--accent-blue); }
 
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-            font-size: 10px;
-        }
-        th, td {
-            padding: 8px 10px;
-            text-align: left;
-            border-bottom: 1px solid #222;
-        }
-        th {
-            background: #1a1a1a;
-            color: #ffd700;
-        }
+  /* trigger area */
+  .trigger-area {
+    margin-top: 28px; display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  }
+  .trigger-area .trigger-info {
+    font-size: 13px; color: var(--text-muted);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .trigger-area .trigger-info i { color: var(--accent-gold); }
+  .btn-primary {
+    background: var(--accent-gold); border: none; color: #000;
+    font-weight: 700; font-size: 14px; padding: 12px 32px;
+    border-radius: 100px; display: inline-flex; align-items: center;
+    gap: 12px; cursor: pointer; transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(255,215,0,0.3);
+    font-family: inherit; letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: #e6c200; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,215,0,0.4); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary i { font-size: 16px; }
 
-        .log {
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 10px;
-            color: #888;
-            height: 150px;
-            overflow-y: auto;
-            line-height: 1.6;
-        }
+  /* manual buttons */
+  .manual-buttons {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+  }
+  .manual-buttons button {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    color: var(--text-secondary); padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; cursor: pointer; transition: var(--transition);
+    font-family: inherit;
+  }
+  .manual-buttons button:hover {
+    background: var(--bg-card-hover); border-color: var(--accent-gold);
+    color: var(--text-primary);
+  }
 
-        button {
-            background: #1a1a2a;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        button:hover { border-color: #ffd700; color: #ffd700; }
+  /* responsive */
+  @media (max-width: 720px) {
+    .pipeline-dashboard { padding: 20px 16px; }
+    .header-left h1 { font-size: 20px; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .pipeline-stages { gap: 4px; }
+    .stage-node { min-width: 80px; }
+    .stage-node .node-circle { width: 48px; height: 48px; font-size: 20px; }
+    .stage-connector { flex: 0 0 28px; min-width: 16px; }
+    .dashboard-header { flex-direction: column; align-items: flex-start; }
+    .header-right { width: 100%; justify-content: space-between; }
+  }
+  @media (max-width: 440px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-card .stat-value { font-size: 22px; }
+  }
+</style>
 
-        footer {
-            text-align: center;
-            color: #333;
-            font-size: 9px;
-            padding-top: 8px;
-            border-top: 1px solid #222;
+<script type="module">
+  // ---------- MODULE IMPORTS (PIPELINE2-spezifisch) ----------
+  import { coreScan } from "./coreScan.js";
+  import { P0 } from "./pipelineP0.js";
+  import { P1 } from "./pipelineP1.js";
+  import { P2 } from "./pipelineP2.js";
+  // optional: QI, aber nicht zwingend
+
+  // ---------- DOM-Referenzen ----------
+  const stagesContainer = document.getElementById('pipelineStages');
+  const logContainer = document.getElementById('logList');
+  const triggerBtn = document.getElementById('triggerBtn');
+  const refreshBtn = document.getElementById('refreshBtn');
+  const lastUpdateEl = document.getElementById('lastUpdate');
+  const successCountEl = document.getElementById('successCount');
+  const runningCountEl = document.getElementById('runningCount');
+  const failedCountEl = document.getElementById('failedCount');
+
+  // Metriken für 3, 9, 81
+  const metric3El = document.getElementById('metric3');
+  const metric9El = document.getElementById('metric9');
+  const metric81El = document.getElementById('metric81');
+
+  // ---------- Pipeline-Definition (3 Stufen: P0, P1, P2) ----------
+  const pipelineModules = [
+    { id: 'P0', label: 'P0 · RAW', icon: 'fa-solid fa-database', run: () => P0.run(coreScan()) },
+    { id: 'P1', label: 'P1 · STRUCTURE', icon: 'fa-solid fa-shapes', run: () => P1.run(coreScan()) },
+    { id: 'P2', label: 'P2 · VECTOR', icon: 'fa-solid fa-arrow-up-right-dots', run: () => P2.run(coreScan()) }
+  ];
+
+  let stageStatus = pipelineModules.map(() => 'pending');
+  let stageResults = pipelineModules.map(() => null);
+  let currentLogs = [];
+  let isRunning = false;
+
+  // ---------- Hilfsfunktionen ----------
+  function getTime() {
+    const now = new Date();
+    return String(now.getHours()).padStart(2,'0') + ':' +
+           String(now.getMinutes()).padStart(2,'0') + ':' +
+           String(now.getSeconds()).padStart(2,'0');
+  }
+
+  function updateTimestamp() {
+    lastUpdateEl.textContent = getTime();
+  }
+
+  // Metriken aus den Ergebnissen extrahieren (falls vorhanden)
+  function updateMetrics() {
+    // Versuche, aus den Ergebnissen die Werte für 3, 9, 81 zu extrahieren
+    // Fallback: wenn keine Ergebnisse, zeige Standardwerte
+    let v3 = '?', v9 = '?', v81 = '?';
+    if (stageResults[0]) {
+      const r0 = stageResults[0];
+      if (typeof r0 === 'object') {
+        v3 = r0.drei ?? r0.three ?? r0[3] ?? '?';
+      } else if (typeof r0 === 'number') {
+        v3 = r0;
+      }
+    }
+    if (stageResults[1]) {
+      const r1 = stageResults[1];
+      if (typeof r1 === 'object') {
+        v9 = r1.neun ?? r1.nine ?? r1[9] ?? '?';
+      } else if (typeof r1 === 'number') {
+        v9 = r1;
+      }
+    }
+    if (stageResults[2]) {
+      const r2 = stageResults[2];
+      if (typeof r2 === 'object') {
+        v81 = r2.einundachtzig ?? r2.eightyone ?? r2[81] ?? '?';
+      } else if (typeof r2 === 'number') {
+        v81 = r2;
+      }
+    }
+    metric3El.textContent = v3;
+    metric9El.textContent = v9;
+    metric81El.textContent = v81;
+  }
+
+  // ---------- Rendering ----------
+  function renderStages() {
+    let html = '';
+    stageStatus.forEach((status, idx) => {
+      const mod = pipelineModules[idx];
+      const statusClass = status;
+      let ringClass = 'pending';
+      if (status === 'running') ringClass = 'running';
+      else if (status === 'success') ringClass = 'success';
+      else if (status === 'failed') ringClass = 'failed';
+
+      html += `
+        <div class="stage-node ${statusClass}">
+          <div class="node-circle">
+            <span class="status-ring ${ringClass}"></span>
+            <i class="${mod.icon}"></i>
+          </div>
+          <div class="node-label">${mod.label}</div>
+          <div class="node-sub">${status === 'running' ? 'läuft …' : status === 'success' ? '✓ fertig' : status === 'failed' ? '✗ fehler' : '⏳ wartet'}</div>
+        </div>
+      `;
+      if (idx < pipelineModules.length - 1) {
+        const nextStatus = stageStatus[idx + 1];
+        let connClass = '';
+        if (status === 'success' && (nextStatus === 'success' || nextStatus === 'running' || nextStatus === 'failed')) {
+          connClass = 'success';
+        } else if (status === 'running') {
+          connClass = 'active';
+        } else if (status === 'failed') {
+          connClass = 'failed';
         }
-    </style>
+        html += `<div class="stage-connector ${connClass}"></div>`;
+      }
+    });
+    stagesContainer.innerHTML = html;
+    updateStats();
+  }
+
+  function renderLogs() {
+    let html = '';
+    currentLogs.forEach(log => {
+      html += `
+        <div class="log-item ${log.type}">
+          <div class="log-icon">${log.icon}</div>
+          <div class="log-content">${log.text}</div>
+          <div class="log-time">${log.time}</div>
+        </div>
+      `;
+    });
+    logContainer.innerHTML = html;
+  }
+
+  function updateStats() {
+    const success = stageStatus.filter(s => s === 'success').length;
+    const running = stageStatus.filter(s => s === 'running').length;
+    const failed = stageStatus.filter(s => s === 'failed').length;
+    successCountEl.textContent = success;
+    runningCountEl.textContent = running;
+    failedCountEl.textContent = failed;
+    updateMetrics();
+  }
+
+  // ---------- Pipeline-Ausführung (echte Module) ----------
+  async function runPipeline() {
+    if (isRunning) return;
+    isRunning = true;
+    triggerBtn.disabled = true;
+    triggerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fusion läuft …';
+
+    // Zurücksetzen
+    stageStatus = pipelineModules.map(() => 'pending');
+    stageResults = pipelineModules.map(() => null);
+    currentLogs = [];
+    currentLogs.push({ icon: '🌀', text: '<strong>PIPELINE2</strong> · Fusion gestartet (3·9·81)', time: getTime(), type: 'info' });
+    renderStages();
+    renderLogs();
+    updateTimestamp();
+
+    for (let i = 0; i < pipelineModules.length; i++) {
+      const mod = pipelineModules[i];
+      stageStatus[i] = 'running';
+      renderStages();
+      currentLogs.push({ icon: '⏳', text: `<strong>${mod.label}</strong> · wird fusioniert …`, time: getTime(), type: 'warning' });
+      renderLogs();
+
+      try {
+        const result = mod.run();
+        stageResults[i] = result;
+        stageStatus[i] = 'success';
+        const resultStr = typeof result === 'object' ? JSON.stringify(result).slice(0, 80) : String(result);
+        currentLogs.push({
+          icon: '✅',
+          text: `<strong>${mod.label}</strong> · fusioniert → ${resultStr}`,
+          time: getTime(),
+          type: 'success'
+        });
+      } catch (err) {
+        stageStatus[i] = 'failed';
+        currentLogs.push({
+          icon: '❌',
+          text: `<strong>${mod.label}</strong> · Fehler: ${err.message || err}`,
+          time: getTime(),
+          type: 'error'
+        });
+      }
+      renderStages();
+      renderLogs();
+      updateTimestamp();
+      await new Promise(resolve => setTimeout(resolve, 600));
+    }
+
+    currentLogs.push({ icon: '🏁', text: '<strong>PIPELINE2</strong> · Fusion abgeschlossen (3·9·81)', time: getTime(), type: 'info' });
+    renderLogs();
+    isRunning = false;
+    triggerBtn.disabled = false;
+    triggerBtn.innerHTML = '<i class="fas fa-play"></i> Pipeline auslösen';
+    updateTimestamp();
+    updateMetrics();
+  }
+
+  // ---------- Manuelle Einzelschritte ----------
+  function manualRun(moduleIndex, label) {
+    if (isRunning) return;
+    const mod = pipelineModules[moduleIndex];
+    if (!mod) return;
+    // Alle anderen auf pending setzen, nur diesen Schritt ausführen
+    stageStatus = stageStatus.map((_, idx) => idx === moduleIndex ? 'running' : 'pending');
+    stageResults = stageResults.map(() => null);
+    currentLogs = [];
+    currentLogs.push({ icon: '🔧', text: `<strong>Manuell</strong> · Starte ${label}`, time: getTime(), type: 'info' });
+    renderStages();
+    renderLogs();
+    updateTimestamp();
+
+    try {
+      const result = mod.run();
+      stageResults[moduleIndex] = result;
+      stageStatus[moduleIndex] = 'success';
+      const resultStr = typeof result === 'object' ? JSON.stringify(result).slice(0, 80) : String(result);
+      currentLogs.push({
+        icon: '✅',
+        text: `<strong>${label}</strong> · Ergebnis → ${resultStr}`,
+        time: getTime(),
+        type: 'success'
+      });
+    } catch (err) {
+      stageStatus[moduleIndex] = 'failed';
+      currentLogs.push({
+        icon: '❌',
+        text: `<strong>${label}</strong> · Fehler: ${err.message || err}`,
+        time: getTime(),
+        type: 'error'
+      });
+    }
+    renderStages();
+    renderLogs();
+    updateTimestamp();
+    updateMetrics();
+  }
+
+  // ---------- Event-Listener ----------
+  triggerBtn.addEventListener('click', runPipeline);
+  refreshBtn.addEventListener('click', function() {
+    if (!isRunning) {
+      stageStatus = pipelineModules.map(() => 'pending');
+      stageResults = pipelineModules.map(() => null);
+      currentLogs = [];
+      currentLogs.push({ icon: '🔄', text: '<strong>System</strong> · Pipeline zurückgesetzt', time: getTime(), type: 'info' });
+      renderStages();
+      renderLogs();
+      updateTimestamp();
+      updateMetrics();
+    } else {
+      updateTimestamp();
+    }
+  });
+
+  // ---------- Initialisierung ----------
+  function init() {
+    stageStatus = pipelineModules.map(() => 'pending');
+    currentLogs = [];
+    currentLogs.push({ icon: '💡', text: '<strong>PIPELINE2</strong> · Bereit für Fusion (3·9·81)', time: getTime(), type: 'info' });
+    renderStages();
+    renderLogs();
+    updateTimestamp();
+    updateMetrics();
+
+    // Globale Funktionen für manuelle Buttons
+    window.p2_raw = () => manualRun(0, 'P0 · RAW');
+    window.p2_structure = () => manualRun(1, 'P1 · STRUCTURE');
+    window.p2_vector = () => manualRun(2, 'P2 · VECTOR');
+  }
+
+  init();
+</script>
+
 </head>
 <body>
 
-<header>
-    <h1>🌀 PIPELINE2 · MASTER-INDEX</h1>
-    <p>P0 → P1 → P2 · QI-SCAN · ORBIT · RITH (4) · EVO · NEWADA</p>
-</header>
+<div class="pipeline-dashboard">
 
-<!-- PIPELINE 0 → 1 → 2 -->
-<div class="panel">
-    <h2>PIPELINE-ACHSEN</h2>
-    <div class="cmd-bar">
-        <div class="cmd" data-id="p0">P0 · RAW</div>
-        <div class="cmd" data-id="p1">P1 · STRUCTURE</div>
-        <div class="cmd" data-id="p2">P2 · VECTOR</div>
+  <!-- HEADER -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <div class="logo-icon"><i class="fas fa-code-branch"></i></div>
+      <h1>PIPELINE2 <span>· RAW Fusion · 3 · 9 · 81</span></h1>
     </div>
-</div>
-
-<!-- RITH WERT -->
-<div class="panel">
-    <h2>RITH-WERT (4)</h2>
-    <div style="font-size: 48px; text-align: center; color: #6bffa9; text-shadow: 0 0 20px rgba(107,255,169,0.3);" id="rithValue">4</div>
-</div>
-
-<!-- QI SCAN + ORBIT -->
-<div class="grid-3">
-    <div class="panel">
-        <h2>QI-SCAN</h2>
-        <div class="stat-row"><span>Master:</span> <b id="qiMaster">0</b></div>
-        <div class="stat-row"><span>Respo:</span> <b id="qiRespo">0</b></div>
-        <div class="stat-row"><span>P2:</span> <b id="qiP2">0</b></div>
-        <button onclick="runQiScan()">📡 QI-SCAN</button>
+    <div class="header-right">
+      <div class="pipeline-badge">
+        <span class="dot"></span>
+        <span>#reFINAL · UC‑Layer</span>
+      </div>
+      <div class="header-actions">
+        <button title="Refresh" id="refreshBtn"><i class="fas fa-rotate"></i></button>
+        <button title="Settings"><i class="fas fa-sliders-h"></i></button>
+      </div>
     </div>
+  </header>
 
-    <div class="panel">
-        <h2>GEN-FLOW</h2>
-        <div class="stat-row"><span>Step:</span> <b id="genStep">P0</b></div>
-        <div class="stat-row"><span>Coverage:</span> <b id="genCoverage">0%</b></div>
-        <div class="stat-row"><span>Orbit:</span> <b id="orbitCount">0</b></div>
-        <button onclick="startGen()">⚡ GEN-FLOW</button>
+  <!-- STATS mit 3·9·81 -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">⚡ Achse 3</div>
+      <div class="stat-value gold" id="metric3">–</div>
+      <div class="stat-sub">Grundvektor</div>
     </div>
-
-    <div class="panel">
-        <h2>NEWADA</h2>
-        <div class="stat-row"><span>Status:</span> <b id="newadaState">IDLE</b></div>
-        <div class="stat-row"><span>Orbit:</span> <b id="newadaOrbit">PASSIV</b></div>
-        <button onclick="runNewada()">✨ NEWADA</button>
+    <div class="stat-card">
+      <div class="stat-label">🌀 Achse 9</div>
+      <div class="stat-value blue" id="metric9">–</div>
+      <div class="stat-sub">Aggregation</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">🌟 Achse 81</div>
+      <div class="stat-value purple" id="metric81">–</div>
+      <div class="stat-sub">Norm / Raum</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Stufen</div>
+      <div class="stat-value green" id="successCount">0</div>
+      <div class="stat-sub">✓ fusioniert</div>
+    </div>
+  </div>
+
+  <!-- PIPELINE FLOW -->
+  <div class="pipeline-flow">
+    <div class="flow-title">
+      <i class="fas fa-arrow-right"></i> Fusionsfluss · P0 → P1 → P2
+    </div>
+    <div class="pipeline-stages" id="pipelineStages">
+      <!-- wird per JS gefüllt -->
+    </div>
+  </div>
+
+  <!-- ACTIVITY / LOGS + manuelle Steuerung -->
+  <div class="activity-section">
+    <div class="activity-panel">
+      <div class="panel-head">
+        <h3><i class="fas fa-terminal"></i> Fusions‑Logs</h3>
+        <span class="badge-count" id="logCount">0</span>
+      </div>
+      <div class="log-list" id="logList">
+        <!-- Logs per JS -->
+      </div>
+    </div>
+    <div class="activity-panel">
+      <div class="panel-head">
+        <h3><i class="fas fa-hand-pointer"></i> Manuelle Steuerung</h3>
+        <span class="badge-count">Einzelschritte</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px; font-size:13px; color:var(--text-secondary);">
+        <div style="display:flex; flex-wrap:wrap; gap:8px;" class="manual-buttons">
+          <button onclick="p2_raw()">P0 · RAW</button>
+          <button onclick="p2_structure()">P1 · STRUCTURE</button>
+          <button onclick="p2_vector()">P2 · VECTOR</button>
+        </div>
+        <div style="margin-top:6px; padding:10px 14px; background:var(--bg-secondary); border-radius:8px; border:1px dashed var(--border-color); text-align:center; color:var(--text-muted); font-size:12px;">
+          <i class="fas fa-arrows-spin" style="margin-right:8px;"></i> Die Achsen <strong style="color:var(--text-primary);">3 · 9 · 81</strong> werden aus den Modul‑Ergebnissen extrahiert.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRIGGER -->
+  <div class="trigger-area">
+    <div class="trigger-info">
+      <i class="fas fa-circle-info"></i>
+      <span>Letzte Fusion: <strong id="lastUpdate">—</strong></span>
+    </div>
+    <button class="btn-primary" id="triggerBtn">
+      <i class="fas fa-play"></i> Pipeline auslösen
+    </button>
+  </div>
+
 </div>
-
-<!-- Tabelle + Log -->
-<div class="panel">
-    <h2>📜 NC-PROTOKOLL</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Ebene</th>
-                <th>Status</th>
-                <th>Wert</th>
-                <th>Mensch</th>
-                <th>Maschine</th>
-            </tr>
-        </thead>
-        <tbody id="evo-tbl"></tbody>
-    </table>
-    <div class="log" id="log">[init] PIPELINE2 Master-Index bereit.</div>
-</div>
-
-<footer>⚖️ EVO-GEOLEGAL · iki1uc © · Code nutzbar, Logik unkopierbar.</footer>
-
-<script>
-// ============================================================
-// PIPELINE2 · ALGORITHMISCHE ENGINE
-// ============================================================
-
-// 1. State
-const state = {
-    rith: 4,
-    p0: { phase: "RAW", wake: false },
-    p1: { phase: "STRUCTURE", order: false },
-    p2: { phase: "VECTOR", direction: null },
-    qi: { master: 0, respo: 0, p2: 0 },
-    gen: { step: "P0", coverage: 0, orbit: 0 },
-    newada: { state: "IDLE", orbit: "PASSIV" }
-};
-
-// 2. Log
-function log(msg) {
-    const el = document.getElementById("log");
-    const e = document.createElement("div");
-    e.textContent = msg;
-    el.appendChild(e);
-    el.scrollTop = el.scrollHeight;
-}
-
-// 3. UI Update
-function updateUI() {
-    document.getElementById("rithValue").textContent = state.rith;
-
-    document.getElementById("qiMaster").textContent = state.qi.master;
-    document.getElementById("qiRespo").textContent = state.qi.respo;
-    document.getElementById("qiP2").textContent = state.qi.p2;
-
-    document.getElementById("genStep").textContent = state.gen.step;
-    document.getElementById("genCoverage").textContent = state.gen.coverage.toFixed(1) + "%";
-    document.getElementById("orbitCount").textContent = state.gen.orbit;
-
-    document.getElementById("newadaState").textContent = state.newada.state;
-    document.getElementById("newadaOrbit").textContent = state.newada.orbit;
-
-    document.querySelectorAll('.cmd[data-id]').forEach(el => {
-        el.classList.toggle('active', el.dataset.id === state.gen.step.toLowerCase());
-    });
-
-    renderTable();
-}
-
-// 4. Tabelle
-function renderTable() {
-    const body = document.getElementById("evo-tbl");
-    body.innerHTML = "";
-    [
-        { name: "P0", state: state.p0.wake ? "WACH" : "SCHLAFEND", value: state.p0.phase, human: "Start", machine: "INIT" },
-        { name: "P1", state: state.p1.order ? "GEORDNET" : "ROH", value: state.p1.phase, human: "Denken", machine: "BUILD" },
-        { name: "P2", state: state.p2.direction ? state.p2.direction : "OHNE", value: state.p2.phase, human: "Richtung", machine: "VECTOR" },
-        { name: "QI", state: "SCAN", value: state.qi.p2, human: "Fühlen", machine: "SCAN" },
-        { name: "GEN", state: "ONLINE", value: state.gen.coverage.toFixed(1) + "%", human: "Atmen", machine: "ORBIT" },
-        { name: "NEWADA", state: state.newada.state, value: "∞", human: "Bewusst", machine: "EMERGENT" }
-    ].forEach(e => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${e.name}</td><td>${e.state}</td><td>${e.value}</td><td>${e.human}</td><td>${e.machine}</td>`;
-        body.appendChild(tr);
-    });
-}
-
-// 5. Run Pipeline
-function runPipeline() {
-    // P0
-    state.p0.wake = true;
-    state.gen.step = "P0";
-    state.gen.orbit++;
-    log("🌀 P0 · RAW → WACH");
-
-    // P1
-    state.p1.order = true;
-    state.gen.step = "P1";
-    state.gen.orbit++;
-    log("🌀 P1 · STRUCTURE → GEORDNET");
-
-    // P2
-    state.p2.direction = "FORWARD";
-    state.gen.step = "P2";
-    state.gen.orbit++;
-    log("🌀 P2 · VECTOR → RICHTUNG");
-}
-
-// 6. QI-SCAN
-function runQiScan() {
-    state.qi.master = Math.floor(Math.random() * 100) + 1;
-    state.qi.respo = Math.floor(state.qi.master / 2);
-    state.qi.p2 = Math.floor(state.qi.respo / 2);
-    log(`📡 QI-SCAN: Master ${state.qi.master} · Respo ${state.qi.respo} · P2 ${state.qi.p2}`);
-}
-
-// 7. GEN-FLOW
-const GEN_SEQ = ["P0", "P1", "P2", "QI", "RITH", "NEWADA"];
-let genInterval = null;
-
-function startGen() {
-    if (genInterval) clearInterval(genInterval);
-    genInterval = setInterval(() => {
-        const idx = GEN_SEQ.indexOf(state.gen.step);
-        state.gen.step = GEN_SEQ[(idx + 1) % GEN_SEQ.length];
-        state.gen.coverage = 42 + Math.sin(Date.now() / 1000) * 5;
-        state.gen.orbit++;
-        updateUI();
-    }, 500);
-}
-
-// 8. NEWADA
-function runNewada() {
-    if (state.p0.wake && state.p1.order && state.p2.direction && state.gen.orbit > 5) {
-        state.newada.state = "EMERGENT";
-        state.newada.orbit = "∞";
-    } else {
-        state.newada.state = "IDLE";
-        state.newada.orbit = "PASSIV";
-    }
-    log(`✨ NEWADA: ${state.newada.state} · Orbit ${state.newada.orbit}`);
-}
-
-// 9. INIT
-document.querySelectorAll('.cmd[data-id]').forEach(el => {
-    el.addEventListener('click', () => {
-        const id = el.dataset.id;
-        if (id === "p0") { state.p0.wake = true; log("⚡ P0 aktiviert"); }
-        if (id === "p1") { state.p1.order = true; log("⚡ P1 aktiviert"); }
-        if (id === "p2") { state.p2.direction = "FORWARD"; log("⚡ P2 aktiviert"); }
-        updateUI();
-    });
-});
-
-updateUI();
-log("🌀 PIPELINE2 Master-Index initialisiert.");
-</script>
 
 </body>
 </html>
